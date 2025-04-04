@@ -14,9 +14,11 @@ include_directories("${SimGrid_INCLUDE_DIR}" SYSTEM)
 
 MESSAGE("${SimGrid_INCLUDE_DIR}")
 
-
-option(USE_JAEGERTRACING "Use jaeger traces through opentracing" ON)
-configure_file(Elasticity/ElasticConfig.hpp.in ${PROJECT_SOURCE_DIR}/Elasticity/ElasticConfig.hpp)
+if(DEFINED ${USE_JAEGER})
+    option(USE_JAEGERTRACING "Use jaeger traces through opentracing" ON)
+    configure_file(Elasticity/ElasticConfig.hpp.in ${PROJECT_SOURCE_DIR}/Elasticity/ElasticConfig.hpp)
+endif()
+    
 
 add_subdirectory(Elasticity)
 add_subdirectory(examples)
