@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 3.17)
 
 project(ElasticTask)
 
-set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/tools/cmake/")
 
 # Search for SimGrid
@@ -19,6 +20,5 @@ if(DEFINED ${USE_JAEGER})
     configure_file(Elasticity/ElasticConfig.hpp.in ${PROJECT_SOURCE_DIR}/Elasticity/ElasticConfig.hpp)
 endif()
     
-
 add_subdirectory(Elasticity)
 add_subdirectory(examples)
