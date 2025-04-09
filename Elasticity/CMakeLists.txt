@@ -3,9 +3,12 @@
 # Search for SimGrid
 include_directories("${SimGrid_INCLUDE_DIR}" SYSTEM)
 
-INCLUDE_DIRECTORIES(SYSTEM /home/clem/.hunter/_Base/d45d77d/4430a64/3b7ee27/Install/include)
-LINK_DIRECTORIES(
-  /home/clem/.hunter/_Base/d45d77d/4430a64/3b7ee27/Install/lib)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# INCLUDE_DIRECTORIES(SYSTEM /home/clem/.hunter/_Base/d45d77d/4430a64/3b7ee27/Install/include)
+# LINK_DIRECTORIES(
+#   /home/clem/.hunter/_Base/d45d77d/4430a64/3b7ee27/Install/lib)
 
 
 if(USE_JAEGERTRACING)

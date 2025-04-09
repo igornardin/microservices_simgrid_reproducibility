@@ -2,6 +2,7 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
+#include "simgrid/s4u.hpp"
 #include <simgrid/s4u/Mailbox.hpp>
 #include <simgrid/s4u/Comm.hpp>
 #include <simgrid/s4u/Engine.hpp>
@@ -11,22 +12,17 @@
 
 XBT_LOG_NEW_DEFAULT_CATEGORY(dataSource, "logs for the Graph experiment");
 
+using namespace std;
+using namespace simgrid::s4u;
+
 namespace sg_microserv {
 
 void DataSource::run() {
-  std::vector<simgrid::s4u::CommPtr> pending_comms;
+  ActivitySet pending_comms;
   boost::uuids::random_generator generator;
   simgrid::s4u::Mailbox* mb = s4u_Mailbox::by_name(mbName_);
 
   while (keepGoing_) {
-    // clean finished puts
-    for (std::vector<simgrid::s4u::CommPtr>::iterator it = pending_comms.begin()
-      ; it != pending_comms.end();) {
-        if ((*it)->test())
-          it = pending_comms.erase(it);
-        else
-          it++;
-    }
 
     // for a request you need to know:
     //  -> the timestamps at which it is triggered
@@ -34,7 +30,7 @@ void DataSource::run() {
     double evtTS = getNextReqTS();
     double nextSize = getNextReqSize();
 
-    if (evtTS == -1) {simgrid::s4u::Comm::wait_all(&pending_comms); return;}
+    if (evtTS == -1) {pending_comms.wait_all(); return;}
 
     simgrid::s4u::this_actor::sleep_until(evtTS);
     double date = simgrid::s4u::Engine::get_instance()->get_clock();
@@ -46,7 +42,7 @@ void DataSource::run() {
     t->requestType = rt_;
 
     simgrid::s4u::CommPtr comm = mb->put_async(t, t->dSize);
-    pending_comms.push_back(comm);
+    pending_comms.push(comm);
   }
 }
 

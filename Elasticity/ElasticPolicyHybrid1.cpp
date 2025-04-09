@@ -96,7 +96,7 @@ void ElasticPolicyHybrid1::run() {
     std::vector<double> lv = etm->getCPULoads();
     double avgLoad = std::accumulate(lv.begin(), lv.end(), 0.0) / lv.size();
     std::string s = "";
-    XBT_INFO("%f %d %d %d %d %f stats", avgLoad, etm->getInstanceAmount(), etm->getAmountOfWaitingRequests(),
+    XBT_INFO("%f %d %ld %ld %d %f stats", avgLoad, etm->getInstanceAmount(), etm->getAmountOfWaitingRequests(),
       etm->getAmountOfExecutingRequests(), execInSlot, etm->reqPerSec()*getUpdateInterval());
 
     etm->resetCounterExecSlot();
@@ -114,7 +114,7 @@ void ElasticPolicyHybrid1::run() {
       deploy(static_cast<int>(nProactive), etm);
     }
 
-    XBT_INFO("%f %d %d %d %d %f stats", avgLoad, etm->getInstanceAmount(), etm->getAmountOfWaitingRequests(),
+    XBT_INFO("%f %d %ld %ld %d %f stats", avgLoad, etm->getInstanceAmount(), etm->getAmountOfWaitingRequests(),
       etm->getAmountOfExecutingRequests(), execInSlot, etm->reqPerSec()*getUpdateInterval());
   }
 }

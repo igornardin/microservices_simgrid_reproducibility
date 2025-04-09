@@ -37,7 +37,7 @@ void ElasticPolicyCPUThreshold::run() {
     for (auto v : lv) s += std::to_string(v)+" " ;
 
     int execInSlot = etm->getCounterExecSlot();
-    XBT_INFO("%f %d %d %d %d %f stats", avgLoad, etm->getInstanceAmount(), etm->getAmountOfWaitingRequests(),
+    XBT_INFO("%f %d %ld %ld %d %f stats", avgLoad, etm->getInstanceAmount(), etm->getAmountOfWaitingRequests(),
       etm->getAmountOfExecutingRequests(), execInSlot, etm->reqPerSec()*getUpdateInterval());
 
     etm->resetCounterExecSlot();
@@ -61,7 +61,7 @@ void ElasticPolicyCPUThreshold::run() {
         hostPool_.push_back(h);
     }
 
-    XBT_INFO("%f %d %d %d %d %f stats", avgLoad, etm->getInstanceAmount(), etm->getAmountOfWaitingRequests(),
+    XBT_INFO("%f %d %ld %ld %d %f stats", avgLoad, etm->getInstanceAmount(), etm->getAmountOfWaitingRequests(),
       etm->getAmountOfExecutingRequests(), execInSlot, etm->reqPerSec()*getUpdateInterval());
     etm->resetCounterExecSlot();
 

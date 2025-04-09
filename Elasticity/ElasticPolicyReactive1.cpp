@@ -51,7 +51,7 @@ void ElasticPolicyReactive1::run() {
     int execInSlot = etm->getCounterExecSlot();
     std::vector<double> lv = etm->getCPULoads();
     double avgLoad = std::accumulate(lv.begin(), lv.end(), 0.0) / lv.size();
-    XBT_INFO("%f %d %d %d %d %f stats", avgLoad, etm->getInstanceAmount(), etm->getAmountOfWaitingRequests(),
+    XBT_INFO("%f %d %ld %ld %d %f stats", avgLoad, etm->getInstanceAmount(), etm->getAmountOfWaitingRequests(),
       etm->getAmountOfExecutingRequests(), execInSlot, etm->reqPerSec()*getUpdateInterval());
     etm->resetCounterExecSlot();
 
@@ -66,7 +66,7 @@ void ElasticPolicyReactive1::run() {
         etm->removeHost(0);
       }
     }
-    XBT_INFO("%f %d %d %d %d %f stats", avgLoad, etm->getInstanceAmount(), etm->getAmountOfWaitingRequests(),
+    XBT_INFO("%f %d %ld %ld %d %f stats", avgLoad, etm->getInstanceAmount(), etm->getAmountOfWaitingRequests(),
       etm->getAmountOfExecutingRequests(), execInSlot, etm->reqPerSec()*getUpdateInterval());
     etm->resetCounterExecSlot();
 

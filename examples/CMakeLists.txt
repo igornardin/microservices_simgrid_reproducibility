@@ -2,15 +2,18 @@
 # Search for SimGrid
 include_directories("${SimGrid_INCLUDE_DIR}" SYSTEM)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 INCLUDE_DIRECTORIES(../Elasticity)
-INCLUDE_DIRECTORIES(SYSTEM /home/clem/.hunter/_Base/d45d77d/4430a64/3b7ee27/Install/include)
-LINK_DIRECTORIES(
-  /home/clem/.hunter/_Base/d45d77d/4430a64/3b7ee27/Install/lib
-  ~/Code/framagit.org/simgridOfficiel/simgrid//build3.27/lib)
+
+# INCLUDE_DIRECTORIES(SYSTEM /home/clem/.hunter/_Base/d45d77d/4430a64/3b7ee27/Install/include)
+# LINK_DIRECTORIES(
+#   /home/clem/.hunter/_Base/d45d77d/4430a64/3b7ee27/Install/lib
+#   ~/Code/framagit.org/simgridOfficiel/simgrid//build3.27/lib)
 
 if(USE_JAEGERTRACING)
   list(APPEND EXTRA_LIBS  jaegertracing opentracing yaml-cppd)
-
 endif()
 
 FILE(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../Elasticity/config.yml

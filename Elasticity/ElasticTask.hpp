@@ -19,11 +19,15 @@
 #include <xbt/string.hpp>
 #include <xbt/signal.hpp>
 #include <xbt/Extendable.hpp>
+#include "simgrid/s4u.hpp"
 #include <simgrid/s4u/Actor.hpp>
 #include <simgrid/s4u/Io.hpp>
 
 #include "ElasticConfig.hpp"
 #include "RequestType.hpp"
+
+using namespace std;
+using namespace simgrid::s4u;
 
 namespace sg_microserv {
 
@@ -245,10 +249,11 @@ class TaskInstance {
     int maxReqInInst_;
     std::vector<TaskDescription*> reqs;
     simgrid::s4u::Host* host_;
-    std::vector<simgrid::s4u::CommPtr> commV;
+    ActivitySet commV;
 
     // structures used to perform CPU executions
-    std::vector<simgrid::s4u::ExecPtr> pending_execs;
+    ActivitySet pending_execs;
+    // std::vector<simgrid::s4u::ExecPtr> pending_execs;
     std::map<simgrid::s4u::ExecPtr, TaskDescription*> execMap_;
 
     /** disk to use for I/Os and structures for pending I/O
