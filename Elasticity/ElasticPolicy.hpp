@@ -80,6 +80,20 @@ class ElasticPolicyHybrid1: public ElasticPolicy {
     void deploy(int nInst, ElasticTaskManager* etm);
 };
 
+/**
+ * CPU Threshold using Kubernetes Least Allocated strategy (default kubernetes policy)
+ */
+class ElasticPolicyCPUKubLeast: public ElasticPolicy {
+   private:
+      double upperCPUThresh_;
+      double lowCPUThresh_;
+  
+   public:
+      ElasticPolicyCPUKubLeast(double inter, double lowCPUT, double highCPUT);
+      simgrid::s4u::Host* getNextHost(double cores_demanded);
+      virtual void run();
+  };
+
 }  // namespace sg_microserv
 
 #endif  // ELASTICITY_ELASTICPOLICY_HPP_

@@ -42,3 +42,6 @@ TARGET_LINK_LIBRARIES(teastore_login Elasticity simgrid ${EXTRA_LIBS})
 
 ADD_EXECUTABLE(generated_2inst generated_2inst.cpp )
 TARGET_LINK_LIBRARIES(generated_2inst Elasticity simgrid ${EXTRA_LIBS})
+
+ADD_EXECUTABLE(DSB DSB.cpp )
+TARGET_LINK_LIBRARIES(DSB Elasticity simgrid ${EXTRA_LIBS})

@@ -74,7 +74,7 @@ void run() {
   etmservice1->addHost(simgrid::s4u::Host::by_name("cb1-4"));
   etmservice1->setExecAmount(1e7);
   etmservice1->setBootDuration(2);
-  simgrid::s4u::Actor::create("etmservice1_a", simgrid::s4u::Host::by_name("cb1-1"), [etmservice1] { etmservice1->run(); });
+  simgrid::s4u::Engine::get_instance()->add_actor("etmservice1_a", simgrid::s4u::Host::by_name("cb1-1"), [etmservice1] { etmservice1->run(); });
 
 
   /* ETM2 */
@@ -87,7 +87,7 @@ void run() {
   etmservice2->addHost(simgrid::s4u::Host::by_name("cb1-102"));
   etmservice2->setExecAmount(5e6);
   etmservice2->setBootDuration(1);
-  simgrid::s4u::Actor::create("etmservice2_a", simgrid::s4u::Host::by_name("cb1-100"), [etmservice2] { etmservice2->run(); });
+  simgrid::s4u::Engine::get_instance()->add_actor("etmservice2_a", simgrid::s4u::Host::by_name("cb1-100"), [etmservice2] { etmservice2->run(); });
 
 
   /*
@@ -100,7 +100,7 @@ void run() {
     *
   */
   DataSourceFixedInterval* ds = new DataSourceFixedInterval("service1", 1, 10000);
-	simgrid::s4u::ActorPtr dataS = simgrid::s4u::Actor::create("snd", simgrid::s4u::Host::by_name("cb1-1"), [&]{ds->run();});
+	simgrid::s4u::ActorPtr dataS = simgrid::s4u::Engine::get_instance()->add_actor("snd", simgrid::s4u::Host::by_name("cb1-1"), [&]{ds->run();});
 
   // kill policies and ETMs
   simgrid::s4u::this_actor::sleep_for(300);
@@ -114,7 +114,7 @@ void run() {
 int main(int argc, char* argv[]) {
 	simgrid::s4u::Engine* e = new simgrid::s4u::Engine(&argc, argv);
 	e->load_platform(argv[1]);
-	simgrid::s4u::Actor::create("main", simgrid::s4u::Host::by_name("cb1-200"), [&]{run();});
+	simgrid::s4u::Engine::get_instance()->add_actor("main", simgrid::s4u::Host::by_name("cb1-200"), [&]{run();});
 	e->run();
 	return 0;
 }

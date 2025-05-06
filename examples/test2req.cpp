@@ -217,7 +217,7 @@ void run()
       serv_nginx_web_server->setOutputFunction(return_nginx_web_server);
       serv_nginx_web_server->setExecAmountFunc(pr_nginx_web_server);
       serv_nginx_web_server->addHost(simgrid::s4u::Host::by_name("cb1-1"));
-      simgrid::s4u::Actor::create("etm_nginx_web_server", simgrid::s4u::Host::by_name("cb1-1"), [serv_nginx_web_server]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_nginx_web_server", simgrid::s4u::Host::by_name("cb1-1"), [serv_nginx_web_server]
                                   { serv_nginx_web_server->run(); });
 
       // create ETM for service home_timeline_service
@@ -228,7 +228,7 @@ void run()
       serv_home_timeline_service->setOutputFunction(return_home_timeline_service);
       serv_home_timeline_service->setExecAmountFunc(pr_home_timeline_service);
       serv_home_timeline_service->addHost(simgrid::s4u::Host::by_name("cb1-2"));
-      simgrid::s4u::Actor::create("etm_home_timeline_service", simgrid::s4u::Host::by_name("cb1-2"), [serv_home_timeline_service]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_home_timeline_service", simgrid::s4u::Host::by_name("cb1-2"), [serv_home_timeline_service]
                                   { serv_home_timeline_service->run(); });
 
       // create ETM for service post_storage_service
@@ -239,7 +239,7 @@ void run()
       serv_post_storage_service->setOutputFunction(return_post_storage_service);
       serv_post_storage_service->setExecAmountFunc(pr_post_storage_service);
       serv_post_storage_service->addHost(simgrid::s4u::Host::by_name("cb1-3"));
-      simgrid::s4u::Actor::create("etm_post_storage_service", simgrid::s4u::Host::by_name("cb1-3"), [serv_post_storage_service]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_post_storage_service", simgrid::s4u::Host::by_name("cb1-3"), [serv_post_storage_service]
                                   { serv_post_storage_service->run(); });
 
       // create ETM for service user_timeline_service
@@ -250,16 +250,16 @@ void run()
       serv_user_timeline_service->setOutputFunction(return_user_timeline_service);
       serv_user_timeline_service->setExecAmountFunc(pr_user_timeline_service);
       serv_user_timeline_service->addHost(simgrid::s4u::Host::by_name("cb1-4"));
-      simgrid::s4u::Actor::create("etm_user_timeline_service", simgrid::s4u::Host::by_name("cb1-4"), [serv_user_timeline_service]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_user_timeline_service", simgrid::s4u::Host::by_name("cb1-4"), [serv_user_timeline_service]
                                   { serv_user_timeline_service->run(); });
 
       /* ADD DATASOURCES MANUALLY HERE, SET THE END TIMER AS YOU WISH, AND LAUNCH YOUR SIMULATOR*/
       DataSourceFixedInterval *dsf = new DataSourceFixedInterval("nginx_web_server", RequestType::READUSER, 30, 100);
-      simgrid::s4u::ActorPtr dataS = simgrid::s4u::Actor::create("snd", simgrid::s4u::Host::by_name("cb1-100"), [&]
+      simgrid::s4u::ActorPtr dataS = simgrid::s4u::Engine::get_instance()->add_actor("snd", simgrid::s4u::Host::by_name("cb1-100"), [&]
                                                                  { dsf->run(); });
 
       DataSourceFixedInterval *dsf2 = new DataSourceFixedInterval("nginx_web_server", RequestType::READHOME, 51, 100);
-      simgrid::s4u::ActorPtr dataS2 = simgrid::s4u::Actor::create("snd", simgrid::s4u::Host::by_name("cb1-100"), [&]
+      simgrid::s4u::ActorPtr dataS2 = simgrid::s4u::Engine::get_instance()->add_actor("snd", simgrid::s4u::Host::by_name("cb1-100"), [&]
                                                                   { dsf2->run(); });
 
       // kill policies and ETMs
@@ -281,7 +281,7 @@ int main(int argc, char *argv[])
       simgrid::s4u::Engine *e = new simgrid::s4u::Engine(&argc, argv);
 
       e->load_platform(argv[1]);
-      simgrid::s4u::Actor::create("main", simgrid::s4u::Host::by_name("cb1-200"), [&]
+      simgrid::s4u::Engine::get_instance()->add_actor("main", simgrid::s4u::Host::by_name("cb1-200"), [&]
                                   { run(); });
       e->run();
       return 0;

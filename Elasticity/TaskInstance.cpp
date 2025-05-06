@@ -121,20 +121,21 @@ namespace sg_microserv
       etm_->setCounterExecSlot(etm_->getCounterExecSlot() + 1);
 
 #ifdef USE_JAEGERTRACING
-      auto t2 = std::chrono::seconds(946684800) + std::chrono::microseconds(
-                                                      static_cast<int>(simgrid::s4u::Engine::get_instance()->get_clock() * 1000000));
       // Check if no problem on spans
       if (td->parentSpans.size() > 0)
         td->parentSpans.at(td->parentSpans.size() - 1)->get()->Log({{"endExec", simgrid::s4u::Engine::get_instance()->get_clock()}});
+// #else
+//       XBT_INFO("Task arrival %f Start execution %f End %f", td->firstArrivalDate, td->startExec, td->endExec);
 #endif
 
       // remove execPtr from the vector since it finished
       simgrid::s4u::ExecPtr ep = exec;
 
       XBT_DEBUG("End of execution for %p, call output function", td);
-      simgrid::s4u::ActorPtr out = simgrid::s4u::Actor::create(
-          mbName_ + "outputf" + boost::uuids::to_string(uuidGen_()), simgrid::s4u::Host::current(), [&]
-          { outputFunction_(td); });
+      simgrid::s4u::ActorPtr out = simgrid::s4u::Engine::get_instance()->add_actor(mbName_ + "outputf" + boost::uuids::to_string(uuidGen_()),
+                                                                                   simgrid::s4u::Host::current(),
+                                                                                   [&]
+                                                                                   { outputFunction_(td); });
       if (keepGoing_)
         n_empty_->release();
     }
@@ -143,13 +144,15 @@ namespace sg_microserv
   void TaskInstance::run()
   {
     host_ = simgrid::s4u::this_actor::get_host();
-
-    poll = simgrid::s4u::Actor::create(
-        mbName_ + boost::uuids::to_string(uuidGen_()), simgrid::s4u::Host::current(), [&]
-        { pollTasks(); });
-    pollEnd = simgrid::s4u::Actor::create(mbName_ + "pollEnd",
-                                          simgrid::s4u::Host::current(), [&]
-                                          { pollEndOfTaskExec(); });
+    string name = mbName_ + boost::uuids::to_string(uuidGen_());
+    poll = simgrid::s4u::Engine::get_instance()->add_actor(name + "_polltasks",
+                                                           simgrid::s4u::Host::current(),
+                                                           [&]
+                                                           { pollTasks(); });
+    pollEnd = simgrid::s4u::Engine::get_instance()->add_actor(name + "_pollend",
+                                                              simgrid::s4u::Host::current(),
+                                                              [&]
+                                                              { pollEndOfTaskExec(); });
     // boot duration (just sleep so that we don't process any request in the node until bootime elapsed)
     simgrid::s4u::this_actor::sleep_for(bootTime_);
 
@@ -254,5 +257,6 @@ namespace sg_microserv
     n_empty_->release();
     n_full_->release();
     sem_pollExec_->release();
+    XBT_INFO("Finished killing %s", this->mbName_.c_str());
   }
 } // namespace sg_microserv

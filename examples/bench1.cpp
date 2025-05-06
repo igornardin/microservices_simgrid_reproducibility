@@ -66,7 +66,7 @@ void run(int servFlops, std::string tsFile, int parDeg) {
 
   etmservice1->setOutputFunction(returnservice1);
   etmservice1->setParallelTasksPerInst(parDeg);
-  simgrid::s4u::Actor::create("etmservice1_a", simgrid::s4u::Host::by_name("cb1-1"), [etmservice1] { etmservice1->run(); });
+  simgrid::s4u::Engine::get_instance()->add_actor("etmservice1_a", simgrid::s4u::Host::by_name("cb1-1"), [etmservice1] { etmservice1->run(); });
   /* 3 instances (not using an elastic policy here, see other examples) */
   etmservice1->addHost(simgrid::s4u::Host::by_name("cb1-2"));
   etmservice1->setExecAmount(servFlops);
@@ -79,7 +79,7 @@ void run(int servFlops, std::string tsFile, int parDeg) {
   std::shared_ptr<sg_microserv::ElasticTaskManager> etmservice2 = std::make_shared<sg_microserv::ElasticTaskManager>("etmservice2",vservice2);
   etmservice2->setParallelTasksPerInst(parDeg);
   etmservice2->setOutputFunction(returnservice2);
-  simgrid::s4u::Actor::create("etmservice2_a", simgrid::s4u::Host::by_name("cb1-100"), [etmservice2] { etmservice2->run(); });
+  simgrid::s4u::Engine::get_instance()->add_actor("etmservice2_a", simgrid::s4u::Host::by_name("cb1-100"), [etmservice2] { etmservice2->run(); });
   /* 2 instances */
   etmservice2->addHost(simgrid::s4u::Host::by_name("cb1-101"));
   etmservice2->setExecAmount(1);
@@ -92,7 +92,7 @@ void run(int servFlops, std::string tsFile, int parDeg) {
   //DataSourceFixedInterval* ds = new DataSourceFixedInterval("service1", .5, 10000);
   //DataSourceTSFile* ds = new DataSourceTSFile("service1", "default5TimeStamps.csv", 1000);
   DataSourceTSFile* ds = new DataSourceTSFile("service1", tsFile, 1000);
-	simgrid::s4u::ActorPtr dataS = simgrid::s4u::Actor::create("snd", simgrid::s4u::Host::by_name("cb1-1"), [&]{ds->run();});
+	simgrid::s4u::ActorPtr dataS = simgrid::s4u::Engine::get_instance()->add_actor("snd", simgrid::s4u::Host::by_name("cb1-1"), [&]{ds->run();});
 
   // kill policies and ETMs
   simgrid::s4u::this_actor::sleep_for(350);
@@ -115,7 +115,7 @@ int main(int argc, char* argv[]) {
 	simgrid::s4u::Engine* e = new simgrid::s4u::Engine(&argc, argv);
 	e->load_platform(argv[1]);
 
-	simgrid::s4u::Actor::create("main", simgrid::s4u::Host::by_name("cb1-200"), [&]{run(std::stoi(argv[2]), argv[3], std::stoi(argv[4]));});
+	simgrid::s4u::Engine::get_instance()->add_actor("main", simgrid::s4u::Host::by_name("cb1-200"), [&]{run(std::stoi(argv[2]), argv[3], std::stoi(argv[4]));});
 	e->run();
 	return 0;
 }

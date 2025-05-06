@@ -29,14 +29,19 @@ namespace sg_microserv
 #endif
 
   ElasticTaskManager::ElasticTaskManager(std::string name,
-                                         std::vector<std::string> incMailboxes, std::string jaegConfigFile)
-      : serviceName_(name), incMailboxes_(incMailboxes), nextHost_(0),
+                                         std::vector<std::string> incMailboxes, 
+                                         std::string jaegConfigFile,
+                                         bool use_virtual_machines)
+      : serviceName_(name), incMailboxes_(incMailboxes),
         keepGoing(true), defCPUCost_(1e7), waitingReqAmount_(0),
         bootDuration_(0), executingReqAmount_(0), counterExecSlot_(0),
-        parallelTasksPerInst_(100), defCPURatio_(1)
+        parallelTasksPerInst_(100), defCPURatio_(1), use_virtual_machines_(use_virtual_machines)
   {
     XBT_DEBUG("Creating TaskManager %s", serviceName_.c_str());
-    sg_host_load_plugin_init();
+    if (use_virtual_machines_)
+      sg_vm_load_plugin_init();
+    else
+      sg_host_load_plugin_init();
     sleep_sem = Semaphore::create(0);
     modif_sem_ = Semaphore::create(1);
 
@@ -44,13 +49,13 @@ namespace sg_microserv
     tracer_ = setUpTracer(jaegConfigFile.c_str(), serviceName_.c_str());
 #endif
   }
-  ElasticTaskManager::ElasticTaskManager(std::string name, std::vector<std::string> incMailboxes)
-      : ElasticTaskManager(name, incMailboxes, "config.yml")
+  ElasticTaskManager::ElasticTaskManager(std::string name, std::vector<std::string> incMailboxes, bool use_virtual_machines)
+      : ElasticTaskManager(name, incMailboxes, "config.yml", use_virtual_machines)
   {
   }
 
-  ElasticTaskManager::ElasticTaskManager(std::string name)
-      : ElasticTaskManager(name, std::vector<std::string>(1, name), "config.yml")
+  ElasticTaskManager::ElasticTaskManager(std::string name, bool use_virtual_machines)
+      : ElasticTaskManager(name, std::vector<std::string>(1, name), "config.yml", use_virtual_machines)
   {
   }
 
@@ -89,14 +94,16 @@ namespace sg_microserv
 
   void ElasticTaskManager::addHost(Host *host)
   {
+    if (use_virtual_machines_)
+    {
+      host = host->create_vm("VM_" + serviceName_ + "_" +boost::uuids::to_string(boost::uuids::random_generator()()), 1);
+    }
     availableHostsList_.push_back(host);
     TaskInstance *ti = new TaskInstance(this, serviceName_ + "_data", outputFunction, parallelTasksPerInst_);
     tiList.push_back(ti);
 
-    XBT_DEBUG("Created a new service instance on host %s. Total # instances is now %ld",
-              host->get_cname(), availableHostsList_.size());
-    Actor::create("TI" + boost::uuids::to_string(boost::uuids::random_generator()()), host, [&]
-                  { ti->run(); });
+    XBT_DEBUG("Created a new service instance on host %s. Total # instances is now %ld", host->get_cname(), availableHostsList_.size());
+    Engine::get_instance()->add_actor("TI" + boost::uuids::to_string(boost::uuids::random_generator()()), host, [&] { ti->run(); });
   }
 
   void ElasticTaskManager::setBootDuration(double bd)
@@ -130,6 +137,13 @@ namespace sg_microserv
       ti->kill();
       delete ti;
       tiList.erase(tiList.begin() + i);
+      if (use_virtual_machines_)
+      {
+        XBT_INFO("Turn off virtual machine %s", h->get_cname());
+        dynamic_cast<VirtualMachine*>(h)->shutdown();
+        h = nullptr;
+        XBT_INFO("Done");
+      }
     }
     else
     {
@@ -142,13 +156,22 @@ namespace sg_microserv
   {
     return availableHostsList_.size();
   }
+  
   std::vector<double> ElasticTaskManager::getCPULoads()
   {
     std::vector<double> v;
     for (int i = 0; i < availableHostsList_.size(); i++)
     {
-      v.push_back(sg_host_get_avg_load(availableHostsList_.at(i)));
-      sg_host_load_reset(availableHostsList_.at(i));
+      if (use_virtual_machines_)
+      {
+        v.push_back(sg_vm_get_avg_load(availableHostsList_.at(i)));
+        sg_vm_load_reset(availableHostsList_.at(i));
+      }
+      else
+      {
+        v.push_back(sg_host_get_avg_load(availableHostsList_.at(i)));
+        sg_host_load_reset(availableHostsList_.at(i));
+      }
     }
     return v;
   }
@@ -263,7 +286,7 @@ namespace sg_microserv
     {
       tiList.at(i)->kill();
     }
-
+    XBT_INFO("Let's kill the pollers");
     for (auto a : pollers_)
     {
       a->kill();
@@ -344,9 +367,7 @@ namespace sg_microserv
     for (auto s : incMailboxes_)
     {
       Mailbox *rec = Mailbox::by_name(s.c_str());
-      pollers_.push_back(Actor::create(
-          serviceName_ + "_" + s + "polling", Host::current(), [&]
-          { pollnet(s); }));
+      pollers_.push_back(Engine::get_instance()->add_actor(serviceName_ + "_" + s + "polling", Host::current(), [&] { pollnet(s); }));
       XBT_INFO("polling on mailbox %s", s.c_str());
     }
 
@@ -366,8 +387,6 @@ namespace sg_microserv
         nextEvtQueue.pop();
         XBT_DEBUG("add: %p", currentEvent);
         TaskDescription *t = dynamic_cast<TaskDescription *>(currentEvent);
-        if (availableHostsList_.size() <= nextHost_)
-          nextHost_ = 0;
         Mailbox *mbp = Mailbox::by_name(serviceName_ + "_data");
 
         /* Async version TODO: clean pending vector */
@@ -382,9 +401,6 @@ namespace sg_microserv
         pending_comms.push_back(comm);
 
         ++task_count;
-
-        nextHost_++;
-        nextHost_ = nextHost_ % availableHostsList_.size();
       }
       if (!keepGoing)
       {

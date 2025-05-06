@@ -122,7 +122,6 @@ class ElasticTaskManager {
     std::string serviceName_;
     std::vector<std::string> incMailboxes_;
     bool keepGoing;
-    int nextHost_;
     double bootDuration_;
     int parallelTasksPerInst_;
 
@@ -143,6 +142,7 @@ class ElasticTaskManager {
     int64_t waitingReqAmount_;
     int64_t executingReqAmount_;
     int counterExecSlot_;
+    bool use_virtual_machines_ = false;
 
     std::vector<simgrid::s4u::ActorPtr> pollers_;
 #ifdef USE_JAEGERTRACING
@@ -153,9 +153,9 @@ class ElasticTaskManager {
 
  public:
     /* request type to string (very stupid, should be modified) */
-    ElasticTaskManager(std::string name, std::vector<std::string> incMailboxes, std::string jaegConfigFile);
-    ElasticTaskManager(std::string name, std::vector<std::string> incMailboxes);
-    explicit ElasticTaskManager(std::string name);
+    ElasticTaskManager(std::string name, std::vector<std::string> incMailboxes, std::string jaegConfigFile, bool use_virtual_machines = false);
+    ElasticTaskManager(std::string name, std::vector<std::string> incMailboxes, bool use_virtual_machines = false);
+    explicit ElasticTaskManager(std::string name, bool use_virtual_machines = false);
 
     /* fetch new task requests*/
     void pollnet(std::string mbName);

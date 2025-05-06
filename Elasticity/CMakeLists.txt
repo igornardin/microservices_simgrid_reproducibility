@@ -1,5 +1,3 @@
-
-
 # Search for SimGrid
 include_directories("${SimGrid_INCLUDE_DIR}" SYSTEM)
 
@@ -16,6 +14,6 @@ if(USE_JAEGERTRACING)
 endif()
 
 
-add_library(Elasticity ElasticTask.cpp DataSource.cpp ElasticPolicyCPUThreshold.cpp ElasticPolicyHybrid1.cpp ElasticPolicyReactive1.cpp TaskInstance.cpp)
+add_library(Elasticity ElasticTask.cpp DataSource.cpp ElasticPolicyCPUKubLeast.cpp ElasticPolicyCPUThreshold.cpp ElasticPolicyHybrid1.cpp ElasticPolicyReactive1.cpp TaskInstance.cpp WriteBuffer.cpp)
 target_link_libraries(Elasticity SimGrid::SimGrid)
 TARGET_LINK_LIBRARIES(Elasticity ${EXTRA_LIBS})

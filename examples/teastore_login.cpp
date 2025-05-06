@@ -777,7 +777,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
   serv_REQ->setReqNames(reqTypeToStr);
   // set the host location in the config file (location)
   serv_REQ->addHost(simgrid::s4u::Host::by_name(configServices.find("REQ")->second.at(0)));
-  simgrid::s4u::Actor::create("etm_REQ", simgrid::s4u::Host::by_name(configServices.find("REQ")->second.at(0)), [serv_REQ]
+  simgrid::s4u::Engine::get_instance()->add_actor("etm_REQ", simgrid::s4u::Host::by_name(configServices.find("REQ")->second.at(0)), [serv_REQ]
                               { serv_REQ->run(); });
 
   // create ETM for service servA
@@ -795,7 +795,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
   serv_servA->setReqNames(reqTypeToStr);
   // set the host location in the config file (location)
   serv_servA->addHost(simgrid::s4u::Host::by_name(configServices.find("servA")->second.at(0)));
-  simgrid::s4u::Actor::create("etm_servA", simgrid::s4u::Host::by_name(configServices.find("servA")->second.at(0)), [serv_servA]
+  simgrid::s4u::Engine::get_instance()->add_actor("etm_servA", simgrid::s4u::Host::by_name(configServices.find("servA")->second.at(0)), [serv_servA]
                               { serv_servA->run(); });
 
   // create ETM for service servB
@@ -813,7 +813,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
   serv_servB->setReqNames(reqTypeToStr);
   // set the host location in the config file (location)
   serv_servB->addHost(simgrid::s4u::Host::by_name(configServices.find("servB")->second.at(0)));
-  simgrid::s4u::Actor::create("etm_servB", simgrid::s4u::Host::by_name(configServices.find("servB")->second.at(0)), [serv_servB]
+  simgrid::s4u::Engine::get_instance()->add_actor("etm_servB", simgrid::s4u::Host::by_name(configServices.find("servB")->second.at(0)), [serv_servB]
                               { serv_servB->run(); });
 
   // create ETM for service servD
@@ -831,7 +831,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
   serv_servD->setReqNames(reqTypeToStr);
   // set the host location in the config file (location)
   serv_servD->addHost(simgrid::s4u::Host::by_name(configServices.find("servD")->second.at(0)));
-  simgrid::s4u::Actor::create("etm_servD", simgrid::s4u::Host::by_name(configServices.find("servD")->second.at(0)), [serv_servD]
+  simgrid::s4u::Engine::get_instance()->add_actor("etm_servD", simgrid::s4u::Host::by_name(configServices.find("servD")->second.at(0)), [serv_servD]
                               { serv_servD->run(); });
 
   // create ETM for service servC
@@ -849,7 +849,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
   serv_servC->setReqNames(reqTypeToStr);
   // set the host location in the config file (location)
   serv_servC->addHost(simgrid::s4u::Host::by_name(configServices.find("servC")->second.at(0)));
-  simgrid::s4u::Actor::create("etm_servC", simgrid::s4u::Host::by_name(configServices.find("servC")->second.at(0)), [serv_servC]
+  simgrid::s4u::Engine::get_instance()->add_actor("etm_servC", simgrid::s4u::Host::by_name(configServices.find("servC")->second.at(0)), [serv_servC]
                               { serv_servC->run(); });
 
   // create ETM for service servA2
@@ -867,7 +867,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
   serv_servA2->setReqNames(reqTypeToStr);
   // set the host location in the config file (location)
   serv_servA2->addHost(simgrid::s4u::Host::by_name(configServices.find("servA2")->second.at(0)));
-  simgrid::s4u::Actor::create("etm_servA2", simgrid::s4u::Host::by_name(configServices.find("servA2")->second.at(0)), [serv_servA2]
+  simgrid::s4u::Engine::get_instance()->add_actor("etm_servA2", simgrid::s4u::Host::by_name(configServices.find("servA2")->second.at(0)), [serv_servA2]
                               { serv_servA2->run(); });
 
   // create ETM for service servC2
@@ -885,7 +885,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
   serv_servC2->setReqNames(reqTypeToStr);
   // set the host location in the config file (location)
   serv_servC2->addHost(simgrid::s4u::Host::by_name(configServices.find("servC2")->second.at(0)));
-  simgrid::s4u::Actor::create("etm_servC2", simgrid::s4u::Host::by_name(configServices.find("servC2")->second.at(0)), [serv_servC2]
+  simgrid::s4u::Engine::get_instance()->add_actor("etm_servC2", simgrid::s4u::Host::by_name(configServices.find("servC2")->second.at(0)), [serv_servC2]
                               { serv_servC2->run(); });
 
   // create ETM for service servD2
@@ -903,7 +903,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
   serv_servD2->setReqNames(reqTypeToStr);
   // set the host location in the config file (location)
   serv_servD2->addHost(simgrid::s4u::Host::by_name(configServices.find("servD2")->second.at(0)));
-  simgrid::s4u::Actor::create("etm_servD2", simgrid::s4u::Host::by_name(configServices.find("servD2")->second.at(0)), [serv_servD2]
+  simgrid::s4u::Engine::get_instance()->add_actor("etm_servD2", simgrid::s4u::Host::by_name(configServices.find("servD2")->second.at(0)), [serv_servD2]
                               { serv_servD2->run(); });
 
   /* ADD DATASOURCES MANUALLY HERE, SET THE END TIMER AS YOU WISH, AND LAUNCH YOUR SIMULATOR*/
@@ -961,7 +961,7 @@ int main(int argc, char *argv[])
   simgrid::s4u::Engine *e = new simgrid::s4u::Engine(&argc, argv);
 
   e->load_platform(argv[1]);
-  simgrid::s4u::Actor::create("main", simgrid::s4u::Host::by_name(servConfig.find("default")->second.at(0)), [&]
+  simgrid::s4u::Engine::get_instance()->add_actor("main", simgrid::s4u::Host::by_name(servConfig.find("default")->second.at(0)), [&]
                               { run(servConfig, std::stod(argv[3])); });
   e->run();
   return 0;

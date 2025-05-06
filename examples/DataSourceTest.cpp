@@ -26,8 +26,8 @@ int main(int argc, char* argv[]) {
 	e->load_platform(argv[1]);
 
   DataSourceFixedInterval* ds = new DataSourceFixedInterval("testOut", 10, 10000);
-	simgrid::s4u::Actor::create("snd", simgrid::s4u::Host::by_name("cb1-1"), [&]{ds->run();});
-  simgrid::s4u::Actor::create("rec", simgrid::s4u::Host::by_name("cb1-1"), [&]{receiver();});
+  e->add_actor("snd", simgrid::s4u::Host::by_name("cb1-1"), [&]{ds->run();});
+  e->add_actor("rec", simgrid::s4u::Host::by_name("cb1-1"), [&]{receiver();});
 	e->run();
 	return 0;
 }

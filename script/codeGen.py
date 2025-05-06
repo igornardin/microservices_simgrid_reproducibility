@@ -346,7 +346,7 @@ def genETMInitCode(graphs, parDeg=10):
     serv_%s->setReqNames(reqTypeToStr);
     // set the host location in the config file (location)
     serv_%s->addHost(simgrid::s4u::Host::by_name(configServices.find(\"%s\")->second.at(0)));
-    simgrid::s4u::Actor::create("etm_%s", simgrid::s4u::Host::by_name(configServices.find(\"%s\")->second.at(0)), [serv_%s] { serv_%s->run(); });
+    simgrid::s4u::Engine::get_instance()->add_actor("etm_%s", simgrid::s4u::Host::by_name(configServices.find(\"%s\")->second.at(0)), [serv_%s] { serv_%s->run(); });
 
     """%(service,service,service,service,service,service,service,service,service,service,service,service,service,service,service,service,service,service,service,service,service,service,service,service)
     hostIndex+=1
@@ -495,7 +495,7 @@ int main(int argc, char* argv[]) {
 	simgrid::s4u::Engine* e = new simgrid::s4u::Engine(&argc, argv);
 
 	e->load_platform(argv[1]);
-	simgrid::s4u::Actor::create("main", simgrid::s4u::Host::by_name(servConfig.find(\"default\")->second.at(0)), [&] {run(servConfig);});
+	e->add_actor("main", simgrid::s4u::Host::by_name(servConfig.find(\"default\")->second.at(0)), [&] {run(servConfig);});
 	e->run();
 	return 0;
 }

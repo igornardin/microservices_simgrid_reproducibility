@@ -770,7 +770,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
       // set the host location in the config file (location)
       serv_nginx_web_server->addHost(simgrid::s4u::Host::by_name(configServices.find("nginx_web_server")->second.at(0)));
       serv_nginx_web_server->addHost(simgrid::s4u::Host::by_name(configServices.find("nginx_web_server")->second.at(0)));
-      simgrid::s4u::Actor::create("etm_nginx_web_server", simgrid::s4u::Host::by_name(configServices.find("nginx_web_server")->second.at(0)), [serv_nginx_web_server]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_nginx_web_server", simgrid::s4u::Host::by_name(configServices.find("nginx_web_server")->second.at(0)), [serv_nginx_web_server]
                                   { serv_nginx_web_server->run(); });
 
       // create ETM for service compose_post_service
@@ -789,7 +789,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
       // set the host location in the config file (location)
       serv_compose_post_service->addHost(simgrid::s4u::Host::by_name(configServices.find("compose_post_service")->second.at(0)));
       serv_compose_post_service->addHost(simgrid::s4u::Host::by_name(configServices.find("compose_post_service")->second.at(0)));
-      simgrid::s4u::Actor::create("etm_compose_post_service", simgrid::s4u::Host::by_name(configServices.find("compose_post_service")->second.at(0)), [serv_compose_post_service]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_compose_post_service", simgrid::s4u::Host::by_name(configServices.find("compose_post_service")->second.at(0)), [serv_compose_post_service]
                                   { serv_compose_post_service->run(); });
 
       // create ETM for service unique_id_service
@@ -808,7 +808,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
       // set the host location in the config file (location)
       serv_unique_id_service->addHost(simgrid::s4u::Host::by_name(configServices.find("unique_id_service")->second.at(0)));
       serv_unique_id_service->addHost(simgrid::s4u::Host::by_name(configServices.find("unique_id_service")->second.at(0)));
-      simgrid::s4u::Actor::create("etm_unique_id_service", simgrid::s4u::Host::by_name(configServices.find("unique_id_service")->second.at(0)), [serv_unique_id_service]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_unique_id_service", simgrid::s4u::Host::by_name(configServices.find("unique_id_service")->second.at(0)), [serv_unique_id_service]
                                   { serv_unique_id_service->run(); });
 
       // create ETM for service media_service
@@ -827,7 +827,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
       // set the host location in the config file (location)
       serv_media_service->addHost(simgrid::s4u::Host::by_name(configServices.find("media_service")->second.at(0)));
       serv_media_service->addHost(simgrid::s4u::Host::by_name(configServices.find("media_service")->second.at(0)));
-      simgrid::s4u::Actor::create("etm_media_service", simgrid::s4u::Host::by_name(configServices.find("media_service")->second.at(0)), [serv_media_service]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_media_service", simgrid::s4u::Host::by_name(configServices.find("media_service")->second.at(0)), [serv_media_service]
                                   { serv_media_service->run(); });
 
       // create ETM for service user_service
@@ -846,7 +846,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
       // set the host location in the config file (location)
       serv_user_service->addHost(simgrid::s4u::Host::by_name(configServices.find("user_service")->second.at(0)));
       serv_user_service->addHost(simgrid::s4u::Host::by_name(configServices.find("user_service")->second.at(0)));
-      simgrid::s4u::Actor::create("etm_user_service", simgrid::s4u::Host::by_name(configServices.find("user_service")->second.at(0)), [serv_user_service]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_user_service", simgrid::s4u::Host::by_name(configServices.find("user_service")->second.at(0)), [serv_user_service]
                                   { serv_user_service->run(); });
 
       // create ETM for service text_service
@@ -865,7 +865,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
       // set the host location in the config file (location)
       serv_text_service->addHost(simgrid::s4u::Host::by_name(configServices.find("text_service")->second.at(0)));
       serv_text_service->addHost(simgrid::s4u::Host::by_name(configServices.find("text_service")->second.at(0)));
-      simgrid::s4u::Actor::create("etm_text_service", simgrid::s4u::Host::by_name(configServices.find("text_service")->second.at(0)), [serv_text_service]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_text_service", simgrid::s4u::Host::by_name(configServices.find("text_service")->second.at(0)), [serv_text_service]
                                   { serv_text_service->run(); });
 
       // create ETM for service user_mention_service
@@ -884,7 +884,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
       // set the host location in the config file (location)
       serv_user_mention_service->addHost(simgrid::s4u::Host::by_name(configServices.find("user_mention_service")->second.at(0)));
       serv_user_mention_service->addHost(simgrid::s4u::Host::by_name(configServices.find("user_mention_service")->second.at(0)));
-      simgrid::s4u::Actor::create("etm_user_mention_service", simgrid::s4u::Host::by_name(configServices.find("user_mention_service")->second.at(0)), [serv_user_mention_service]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_user_mention_service", simgrid::s4u::Host::by_name(configServices.find("user_mention_service")->second.at(0)), [serv_user_mention_service]
                                   { serv_user_mention_service->run(); });
 
       // create ETM for service home_timeline_service
@@ -903,7 +903,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
       // set the host location in the config file (location)
       serv_home_timeline_service->addHost(simgrid::s4u::Host::by_name(configServices.find("home_timeline_service")->second.at(0)));
       serv_home_timeline_service->addHost(simgrid::s4u::Host::by_name(configServices.find("home_timeline_service")->second.at(0)));
-      simgrid::s4u::Actor::create("etm_home_timeline_service", simgrid::s4u::Host::by_name(configServices.find("home_timeline_service")->second.at(0)), [serv_home_timeline_service]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_home_timeline_service", simgrid::s4u::Host::by_name(configServices.find("home_timeline_service")->second.at(0)), [serv_home_timeline_service]
                                   { serv_home_timeline_service->run(); });
 
       // create ETM for service social_graph_service
@@ -922,7 +922,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
       // set the host location in the config file (location)
       serv_social_graph_service->addHost(simgrid::s4u::Host::by_name(configServices.find("social_graph_service")->second.at(0)));
       serv_social_graph_service->addHost(simgrid::s4u::Host::by_name(configServices.find("social_graph_service")->second.at(0)));
-      simgrid::s4u::Actor::create("etm_social_graph_service", simgrid::s4u::Host::by_name(configServices.find("social_graph_service")->second.at(0)), [serv_social_graph_service]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_social_graph_service", simgrid::s4u::Host::by_name(configServices.find("social_graph_service")->second.at(0)), [serv_social_graph_service]
                                   { serv_social_graph_service->run(); });
 
       // create ETM for service user_timeline_service
@@ -941,7 +941,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
       // set the host location in the config file (location)
       serv_user_timeline_service->addHost(simgrid::s4u::Host::by_name(configServices.find("user_timeline_service")->second.at(0)));
       serv_user_timeline_service->addHost(simgrid::s4u::Host::by_name(configServices.find("user_timeline_service")->second.at(0)));
-      simgrid::s4u::Actor::create("etm_user_timeline_service", simgrid::s4u::Host::by_name(configServices.find("user_timeline_service")->second.at(0)), [serv_user_timeline_service]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_user_timeline_service", simgrid::s4u::Host::by_name(configServices.find("user_timeline_service")->second.at(0)), [serv_user_timeline_service]
                                   { serv_user_timeline_service->run(); });
 
       // create ETM for service post_storage_service
@@ -960,7 +960,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
       // set the host location in the config file (location)
       serv_post_storage_service->addHost(simgrid::s4u::Host::by_name(configServices.find("post_storage_service")->second.at(0)));
       serv_post_storage_service->addHost(simgrid::s4u::Host::by_name(configServices.find("post_storage_service")->second.at(0)));
-      simgrid::s4u::Actor::create("etm_post_storage_service", simgrid::s4u::Host::by_name(configServices.find("post_storage_service")->second.at(0)), [serv_post_storage_service]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_post_storage_service", simgrid::s4u::Host::by_name(configServices.find("post_storage_service")->second.at(0)), [serv_post_storage_service]
                                   { serv_post_storage_service->run(); });
 
       // create ETM for service url_shorten_service
@@ -979,12 +979,12 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
       // set the host location in the config file (location)
       serv_url_shorten_service->addHost(simgrid::s4u::Host::by_name(configServices.find("url_shorten_service")->second.at(0)));
       serv_url_shorten_service->addHost(simgrid::s4u::Host::by_name(configServices.find("url_shorten_service")->second.at(0)));
-      simgrid::s4u::Actor::create("etm_url_shorten_service", simgrid::s4u::Host::by_name(configServices.find("url_shorten_service")->second.at(0)), [serv_url_shorten_service]
+      simgrid::s4u::Engine::get_instance()->add_actor("etm_url_shorten_service", simgrid::s4u::Host::by_name(configServices.find("url_shorten_service")->second.at(0)), [serv_url_shorten_service]
                                   { serv_url_shorten_service->run(); });
 
       /* ADD DATASOURCES MANUALLY HERE, SET THE END TIMER AS YOU WISH, AND LAUNCH YOUR SIMULATOR*/
       DataSourceFixedInterval *dsf = new DataSourceFixedInterval("nginx_web_server", RequestType::COMPOSE, 1 / freq, 100);
-      simgrid::s4u::ActorPtr dataS = simgrid::s4u::Actor::create("snd", simgrid::s4u::Host::by_name("clemth.irisa.fr"), [&]
+      simgrid::s4u::ActorPtr dataS = simgrid::s4u::Engine::get_instance()->add_actor("snd", simgrid::s4u::Host::by_name("clemth.irisa.fr"), [&]
                                                                  { dsf->run(); });
 
       // kill policies and ETMs
@@ -1033,7 +1033,7 @@ int main(int argc, char *argv[])
 
       simgrid::s4u::Engine *e = new simgrid::s4u::Engine(&argc, argv);
       e->load_platform(argv[1]);
-      simgrid::s4u::Actor::create("main", simgrid::s4u::Host::by_name(servConfig.find("default")->second.at(0)), [&]
+      simgrid::s4u::Engine::get_instance()->add_actor("main", simgrid::s4u::Host::by_name(servConfig.find("default")->second.at(0)), [&]
                                   { run(servConfig, std::stod(argv[3])); });
       e->run();
       return 0;

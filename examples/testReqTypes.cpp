@@ -117,14 +117,14 @@ void run() {
 
 
   // create actors
-  simgrid::s4u::Actor::create("etm_nginx_web_server", simgrid::s4u::Host::by_name("cb1-1"), [serv_nginx_web_server] { serv_nginx_web_server->run(); });
-  simgrid::s4u::Actor::create("etm_user_timeline", simgrid::s4u::Host::by_name("cb1-2"), [serv_user_timeline] { serv_user_timeline->run(); });
-  simgrid::s4u::Actor::create("etm_post_storage", simgrid::s4u::Host::by_name("cb1-3"), [serv_post_storage] { serv_post_storage->run(); });
+  simgrid::s4u::Engine::get_instance()->add_actor("etm_nginx_web_server", simgrid::s4u::Host::by_name("cb1-1"), [serv_nginx_web_server] { serv_nginx_web_server->run(); });
+  simgrid::s4u::Engine::get_instance()->add_actor("etm_user_timeline", simgrid::s4u::Host::by_name("cb1-2"), [serv_user_timeline] { serv_user_timeline->run(); });
+  simgrid::s4u::Engine::get_instance()->add_actor("etm_post_storage", simgrid::s4u::Host::by_name("cb1-3"), [serv_post_storage] { serv_post_storage->run(); });
 
 
   /*create datasource*/
   DataSourceFixedInterval* dsf = new DataSourceFixedInterval("nginx_web_server",RequestType::TESTREQ_EXAMPLE, 5,100);
-  simgrid::s4u::ActorPtr dataS = simgrid::s4u::Actor::create("snd", simgrid::s4u::Host::by_name("cb1-100"), [&]{dsf->run();});
+  simgrid::s4u::ActorPtr dataS = simgrid::s4u::Engine::get_instance()->add_actor("snd", simgrid::s4u::Host::by_name("cb1-100"), [&]{dsf->run();});
 
 
   // kill policies and ETMs
@@ -139,7 +139,7 @@ int main(int argc, char* argv[]) {
 	simgrid::s4u::Engine* e = new simgrid::s4u::Engine(&argc, argv);
 
 	e->load_platform(argv[1]);
-	simgrid::s4u::Actor::create("main", simgrid::s4u::Host::by_name("cb1-200"), [&]{run();});
+	simgrid::s4u::Engine::get_instance()->add_actor("main", simgrid::s4u::Host::by_name("cb1-200"), [&]{run();});
 	e->run();
 	return 0;
 }
