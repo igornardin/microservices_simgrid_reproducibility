@@ -10,7 +10,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/tools/cmake/")
 # Search for SimGrid
 #set(SimGrid_DIR "/home/clem/Code/framagit.org/simgridOfficiel/simgrid/build/" CACHE PATH "Simgrid path")
 
-find_package(SimGrid 3.36 REQUIRED)
+find_package(SimGrid 4 REQUIRED)
 include_directories("${SimGrid_INCLUDE_DIR}" SYSTEM)
 
 MESSAGE("${SimGrid_INCLUDE_DIR}")

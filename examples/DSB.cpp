@@ -1059,10 +1059,10 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
 }
 int main(int argc, char *argv[])
 {
-   if (argc <= 2)
+   if (argc <= 3)
    {
       std::cout << "Wrong execution line" << std::endl;
-      std::cout << argv[0] << "<simgrid-platform-file.xml> <services-config-file.csv>" << std::endl;
+      std::cout << argv[0] << "<simgrid-platform-file.xml> <services-config-file.csv> <calls frequency>" << std::endl;
       exit(1);
    }
 

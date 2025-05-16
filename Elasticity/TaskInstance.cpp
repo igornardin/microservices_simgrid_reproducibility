@@ -236,8 +236,6 @@ namespace sg_microserv
 
   void TaskInstance::kill()
   {
-    XBT_INFO("Kill taskinstance td size: %ld %ld", reqs.size(), execMap_.size());
-
     keepGoing_ = false;
     // don't receive requests anymore
     // simgrid::s4u::Comm::wait_all(&commV);
@@ -257,6 +255,5 @@ namespace sg_microserv
     n_empty_->release();
     n_full_->release();
     sem_pollExec_->release();
-    XBT_INFO("Finished killing %s", this->mbName_.c_str());
   }
 } // namespace sg_microserv

@@ -24,6 +24,17 @@ the examples before running them using the benchmark scripts we provide.
 The code of our microservice model can be found in [[./Elasticity]], and the code of
 the simulators in [[./example]].
 
+You can use NixOS to install the dependencies. The majority of the dependencies are 
+listed in the default.nix file (all dependencies but Jaeger). 
+
+With NixOS installed, it is necessary to run the following command inside the main folder:
+
+#+BEGIN_SRC sh
+nix-shell
+#+END_SRC
+
+This command downloads and installs the dependencies in the right version to run the simulation.
+
 Our simulators are able to export simulated traces to Jaeger thanks to an
 opentracing instrumentation. To use this feature you need
 https://github.com/jaegertracing/jaeger-client-cpp.

@@ -139,10 +139,8 @@ namespace sg_microserv
       tiList.erase(tiList.begin() + i);
       if (use_virtual_machines_)
       {
-        XBT_INFO("Turn off virtual machine %s", h->get_cname());
         dynamic_cast<VirtualMachine*>(h)->shutdown();
         h = nullptr;
-        XBT_INFO("Done");
       }
     }
     else

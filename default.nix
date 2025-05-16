@@ -8,10 +8,10 @@
 let 
   simgrid = pkgs.simgrid.overrideAttrs(oldAttrs: rec {
   version = oldAttrs.version + "-vm_load";
-  rev = "b2e72d6b597494e29ef3471073fb5a8c2e3e563c"; # The desired SimGrid commit.
+  rev = "ac8abcab3c51fb82368c53f21bcb037b7920ed0a"; # The desired SimGrid commit.
   src = pkgs.fetchurl {
-    url = "https://github.com/igornardin/simgrid/archive/refs/tags/v1.0.tar.gz";
-    sha256 = "sha256-gVTkq3IwYwwfHhFsnetVlPZJYgrN6b6COl/v6SmudEs=";
+    url = "https://github.com/igornardin/simgrid/archive/refs/tags/V1.1.tar.gz";
+    sha256 = "sha256-8OazbLzSM04mBOkU6LPuy2I7JaNIiUTrsK/VautVJ78=";
   };
 });
 
