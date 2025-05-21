@@ -775,7 +775,7 @@ void run(std::map<std::string, std::vector<std::string>> configServices, double 
 {
    XBT_INFO("Starting run()");
 
-   ElasticPolicyCPUKubLeast *elastic = new ElasticPolicyCPUKubLeast(15, 20, 80);
+   ElasticPolicyCPUKubLeast *elastic = new ElasticPolicyCPUKubLeast(15, 80, 20);
 
    // create ETM for service nginx_web_server
    std::vector<std::string> v_serv_nginx_web_server = std::vector<std::string>();
