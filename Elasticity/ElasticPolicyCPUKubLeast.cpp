@@ -24,7 +24,7 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(ElasticPolicyCPUKubLeast, "Elastic tasks policy man
     Here, we consider only CPU, but memory can be easily added 
 */
 
-ElasticPolicyCPUKubLeast::ElasticPolicyCPUKubLeast(double interval, double uCPUT, double lCPUT)
+ElasticPolicyCPUKubLeast::ElasticPolicyCPUKubLeast(double interval, double lCPUT, double uCPUT)
   : ElasticPolicy(interval), upperCPUThresh_(uCPUT), lowCPUThresh_(lCPUT)
 {
     hostPool_ = simgrid::s4u::Engine::get_instance()->get_filtered_hosts([](const simgrid::s4u::Host* host) 
