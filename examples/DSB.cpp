@@ -10,6 +10,7 @@
 #include "DataSource.hpp"
 #include <memory>
 #include "WriteBuffer.hpp"
+#include "simgrid/plugins/energy.h"
 
 XBT_LOG_NEW_DEFAULT_CATEGORY(run_log, "logs of the experiment");
 
@@ -1081,6 +1082,9 @@ int main(int argc, char *argv[])
    }
 
    simgrid::s4u::Engine *e = new simgrid::s4u::Engine(&argc, argv);
+
+   sg_host_energy_plugin_init();
+
    e->load_platform(argv[1]);
    simgrid::s4u::Engine::get_instance()->add_actor("main", simgrid::s4u::Host::by_name(servConfig.find("default")->second.at(0)), [&]
                                { run(servConfig, std::stod(argv[3])); });

@@ -49,8 +49,6 @@ void ElasticPolicyCPUKubLeast::run() {
   
       int execInSlot = etm->getCounterExecSlot();
   
-      etm->resetCounterExecSlot();
-  
       if (avgLoad > upperCPUThresh_) {
         auto next_host = getNextHost(1);
         if (next_host == nullptr)

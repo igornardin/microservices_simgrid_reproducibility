@@ -3,8 +3,12 @@
 <platform version="4.1">
   <zone id="world" routing="Full">
     <!-- The resources -->
-    <host id="clemth.irisa.fr" speed="1Gf" core="10"/>
-    <host id="clempc" speed="1Gf" core="10"/>
+    <host id="clemth.irisa.fr" speed="1Gf" core="10">
+      <prop id="wattage_per_state" value="62.0:62.0:143.4"/>
+    </host>
+    <host id="clempc" speed="1Gf" core="10">
+      <prop id="wattage_per_state" value="62.0:62.0:143.4"/>
+    </host>
     <link id="1" bandwidth="125GBps" latency="0us"/>
 
     <!-- The routing between resources -->
